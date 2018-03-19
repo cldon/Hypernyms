@@ -1,6 +1,7 @@
 import os
 import pprint
 import argparse
+from collections import Counter
 
 pp = pprint.PrettyPrinter()
 parser = argparse.ArgumentParser()
@@ -20,7 +21,8 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
     print(wikideppaths)
 
     lines_read = 0
-    relevantDepPaths2counts = {}
+    relevantDepPaths2counts = Counter()
+    path2direct = {}
     with open(wikideppaths, 'r') as f:
         for line in f:
             line = line.strip()
@@ -30,7 +32,20 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
             lines_read += 1
 
             word1, word2, deppath = line.split("\t")
-
+            if (word1, word2) in wordpairs_labels: 
+                if wordpairs_labels[(word1, word2)]:
+                    # categorize as forward
+                    if deppath not in path2direct: 
+                        path2direct[deppath] = 'forward'
+                    # increment relevant path counts 
+                    relevantDepPaths2counts[deppath] = relevantDepPaths2counts[deppath] + 1
+            elif (word2, word1) in wordpairs_labels:
+                if wordpairs_labels[(word2, word1)]: 
+                    # categorize as reverse
+                    if deppath not in path2direct: 
+                        path2direct[deppath] = 'forward'
+                        # increment relevant path counts
+                    relevantDepPaths2counts[deppath] = relevantDepPaths2counts[deppath] + 1
             '''
                 IMPLEMENT METHOD TO EXTRACT RELEVANT DEPEDENCY PATHS HERE
 
