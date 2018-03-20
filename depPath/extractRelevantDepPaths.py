@@ -62,6 +62,8 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
         for dep_path in relevantDepPaths2counts:
             if relevantDepPaths2counts[dep_path] > 0:
                 f.write(dep_path)
+                f.write('\t')
+                f.write(path2direct[dep_path])
                 f.write('\n')
 
 

@@ -31,7 +31,15 @@ def readPaths(relevantdeppaths):
     '''
         READ THE RELEVANT DEPENDENCY PATHS HERE
     '''
-
+    path2type = {}
+    with open(relevantdeppaths, 'r') as f: 
+        lines = f.readlines() 
+        for line in lines:
+            splitline = line.split('\t')
+            path = splitline[0]
+            path_type = splitline[1]
+            path2type[path] = path_type
+    return path2type        
     # return relevantPaths
 
 
