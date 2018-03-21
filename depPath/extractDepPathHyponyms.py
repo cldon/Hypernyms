@@ -22,7 +22,7 @@ def extractHyperHypoExtractions(wikideppaths, relevantPaths):
     '''
 
     # Should finally contain a list of (hyponym, hypernym) tuples
-    depPathExtractions = []
+    depPathExtractions = []   
     with open(wikideppaths, 'r') as f:
         for line in f:
             line = line.strip()
@@ -30,11 +30,11 @@ def extractHyperHypoExtractions(wikideppaths, relevantPaths):
                 continue
             word1, word2, deppath = line.split("\t")
             if deppath in relevantPaths: 
-                path_type = relevantPaths[deppath]
+                path_type = relevantPaths[deppath].rstrip()
                 if path_type == 'forward':
-                    depPathExtractions.append(word1, word2)
-                elif path_type == 'reverse': 
-                    depPathExtractions.append(word2, word1)
+                    depPathExtractions.append((word1, word2))
+                elif path_type == 'reverse':
+                    depPathExtractions.append((word2, word1))
     return depPathExtractions
 
 
@@ -50,6 +50,7 @@ def readPaths(relevantdeppaths):
             path = splitline[0]
             path_type = splitline[1]
             path2type[path] = path_type
+    print("Relevant Paths: " + str(len(path2type)))
     return path2type        
     # return relevantPaths
 
@@ -72,7 +73,7 @@ def main(args):
     # types of paths are values 
     hypo_hyper_pairs = extractHyperHypoExtractions(args.wikideppaths,
                                                    relevantPaths)
-
+    print(len(hypo_hyper_pairs))
     writeHypoHyperPairsToFile(hypo_hyper_pairs, args.outputfile)
 
 

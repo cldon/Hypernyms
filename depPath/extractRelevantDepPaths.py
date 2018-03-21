@@ -1,5 +1,7 @@
 import os
 import pprint
+import numpy as np
+import matplotlib.pyplot as plt
 import argparse
 from collections import Counter
 
@@ -57,10 +59,29 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
                 3. Negative Paths: If this path exists, definitely not a hyper/hyponym relations
                 4. etc......
             '''
-
+    counts = relevantDepPaths2counts.values()
+    counts = list(counts)
+    print(type(counts))
+    print(max(counts))
+    print(min(counts))
+    counts = np.asarray(counts)
+    print(np.percentile(counts, 10))
+    print(np.percentile(counts, 20))
+    print(np.percentile(counts, 30))
+    print(np.percentile(counts, 40))
+    print(np.percentile(counts, 50))
+    print(np.percentile(counts, 60))
+    print(np.percentile(counts, 70))
+    print(np.percentile(counts, 80))
+    print(np.percentile(counts, 90))
+    print(np.percentile(counts, 95))
+    print(np.percentile(counts, 100))
+    toppaths = relevantDepPaths2counts.most_common()[1:20]
+    for path, count in toppaths:
+        print(path, " ", str(count), " ", str(path2direct[path]))
     with open(outputfile, 'w') as f:
         for dep_path in relevantDepPaths2counts:
-            if relevantDepPaths2counts[dep_path] > 0:
+            if relevantDepPaths2counts[dep_path] > 1:
                 f.write(dep_path)
                 f.write('\t')
                 f.write(path2direct[dep_path])
