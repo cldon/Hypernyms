@@ -16,14 +16,25 @@ def extractHyperHypoExtractions(wikideppaths, relevantPaths):
         col2: word2
         col3: deppath
     '''
-
-    # Should finally contain a list of (hyponym, hypernym) tuples
-    depPathExtractions = []
-
+    
     '''
         IMPLEMENT
     '''
 
+    # Should finally contain a list of (hyponym, hypernym) tuples
+    depPathExtractions = []
+    with open(wikideppaths, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            word1, word2, deppath = line.split("\t")
+            if deppath in relevantPaths: 
+                path_type = relevantPaths[deppath]
+                if path_type == 'forward':
+                    depPathExtractions.append(word1, word2)
+                elif path_type == 'reverse': 
+                    depPathExtractions.append(word2, word1)
     return depPathExtractions
 
 
@@ -57,7 +68,8 @@ def main(args):
     print(args.wikideppaths)
 
     relevantPaths = readPaths(args.relevantdeppaths)
-
+    # relevant path is a dictionary where paths are keys and 
+    # types of paths are values 
     hypo_hyper_pairs = extractHyperHypoExtractions(args.wikideppaths,
                                                    relevantPaths)
 

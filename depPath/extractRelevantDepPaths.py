@@ -43,7 +43,7 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
                 if wordpairs_labels[(word2, word1)]: 
                     # categorize as reverse
                     if deppath not in path2direct: 
-                        path2direct[deppath] = 'forward'
+                        path2direct[deppath] = 'reverse'
                         # increment relevant path counts
                     relevantDepPaths2counts[deppath] = relevantDepPaths2counts[deppath] + 1
             '''
