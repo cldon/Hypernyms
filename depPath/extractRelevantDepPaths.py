@@ -87,6 +87,7 @@ def extractRelevantPaths(wikideppaths, wordpairs_labels, outputfile):
     print(max(word_counts))
     print(min(word_counts))
     word_counts = np.asarray(word_counts)
+    
     print(np.percentile(word_counts, 10))
     print(np.percentile(word_counts, 20))
     print(np.percentile(word_counts, 30))
